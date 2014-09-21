@@ -16,11 +16,11 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:
+     [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeAlert)
+                                       categories:nil]];
     BNRHypnosisViewController *hvc = [[BNRHypnosisViewController alloc] init];
-    NSBundle *appBundle = [NSBundle mainBundle];
-    BNRReminderViewController *rvc = [[BNRReminderViewController alloc] initWithNibName:@"BNRReminderViewController"
-                                                                                 bundle:appBundle];
+    BNRReminderViewController *rvc = [[BNRReminderViewController alloc] init];
     
     UITabBarController *tabBarController = [[UITabBarController alloc] init];
     tabBarController.viewControllers = @[hvc, rvc];

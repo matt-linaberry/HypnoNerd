@@ -17,6 +17,13 @@
     NSDate *date = self.datePicker.date;
     
     NSLog(@"Setting a reminder for %@", date);
+    
+    UILocalNotification *note = [[UILocalNotification alloc] init];
+    note.alertBody = @"Hypnotize me!";
+    note.fireDate = date;
+
+    [[UIApplication sharedApplication] scheduleLocalNotification:note];
+    
 }
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil
@@ -32,5 +39,17 @@
     }
     
     return self;
+}
+
+- (void) viewDidLoad
+{
+    [super viewDidLoad];
+    NSLog(@"BNRReminderViewController has loaded!");
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [ super viewWillAppear:animated];
+    self.datePicker.minimumDate = [NSDate dateWithTimeIntervalSinceNow:60];
 }
 @end
