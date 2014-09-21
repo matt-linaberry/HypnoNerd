@@ -16,7 +16,7 @@
     // create a view!
     CGRect frame = [UIScreen mainScreen].bounds;
     BNRHypnosisView *backgroundView = [[BNRHypnosisView alloc] initWithFrame:frame];
-    
+    UISegmentedControl *segmentControl = [[UISegmentedControl alloc] init];
     self.view = backgroundView;
 }
 
