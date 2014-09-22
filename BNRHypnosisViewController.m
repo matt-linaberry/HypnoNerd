@@ -9,6 +9,10 @@
 #import "BNRHypnosisViewController.h"
 #import "BNRHypnosisView.h"
 
+@interface BNRHypnosisViewController () <UITextFieldDelegate>
+
+@end
+
 @implementation BNRHypnosisViewController
 
 -(void) loadView
@@ -17,7 +21,57 @@
     CGRect frame = [UIScreen mainScreen].bounds;
     BNRHypnosisView *backgroundView = [[BNRHypnosisView alloc] initWithFrame:frame];
     
+    CGRect textFieldRect = CGRectMake(40, 70, 240, 30);
+    UITextField *textField = [[UITextField alloc] initWithFrame:textFieldRect];
+    
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.placeholder = @"Hypnotize Me!!!";
+    textField.returnKeyType = UIReturnKeyDone;
+    
+    textField.delegate = self;
+    [backgroundView addSubview:textField];
+    
     self.view = backgroundView;
+}
+
+- (void) drawHypnoticMessage:(NSString *)message
+{
+    for (int i = 0; i < 20; i++)
+    {
+        UILabel *messageLabel = [[UILabel alloc] init];
+        messageLabel.backgroundColor = [UIColor clearColor];
+        messageLabel.text = message;
+        
+        [messageLabel sizeToFit];
+        
+        int width = self.view.bounds.size.width - messageLabel.bounds.size.width;
+        int x = arc4random() % width;
+        
+        int height = self.view.bounds.size.height - messageLabel.bounds.size.height;
+        int y = arc4random() % height;
+        
+        CGRect frame = messageLabel.frame;
+        frame.origin = CGPointMake(x, y);
+        messageLabel.frame = frame;
+        
+        [self.view addSubview:messageLabel];
+        
+        // add the parralax effect
+        UIInterpolatingMotionEffect *motionEffect;
+        motionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.x"
+                                                                       type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+        motionEffect.minimumRelativeValue = @-25;
+        motionEffect.maximumRelativeValue = @25;
+        
+        [messageLabel addMotionEffect:motionEffect];
+        
+        motionEffect = [[UIInterpolatingMotionEffect alloc] initWithKeyPath:@"center.y"
+                                                                       type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+        motionEffect.minimumRelativeValue = @-25;
+        motionEffect.maximumRelativeValue = @25;
+        
+        [messageLabel addMotionEffect:motionEffect];
+    }
 }
 
 - (instancetype) initWithNibName:(NSString *)nibNameOrNil
@@ -37,5 +91,13 @@
 {
     [super viewDidLoad];
     NSLog(@"BNRHypnosisViewController did load!");
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+    [self drawHypnoticMessage:textField.text];
+    textField.text = @"";
+    [textField resignFirstResponder];
+    return YES;
 }
 @end
