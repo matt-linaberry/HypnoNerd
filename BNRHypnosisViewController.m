@@ -16,7 +16,7 @@
     // create a view!
     CGRect frame = [UIScreen mainScreen].bounds;
     BNRHypnosisView *backgroundView = [[BNRHypnosisView alloc] initWithFrame:frame];
-    UISegmentedControl *segmentControl = [[UISegmentedControl alloc] init];
+
     self.view = backgroundView;
 }
 
@@ -29,6 +29,16 @@
         self.tabBarItem.title = @"Hypnotize";
         UIImage *image = [UIImage imageNamed:@"Hypno.png"];
         self.tabBarItem.image = image;
+        
+        NSMutableArray *colorArray = [[NSMutableArray alloc] init];
+        [colorArray addObject:@"Red"];
+        [colorArray addObject:@"Blue"];
+        [colorArray addObject:@"Green"];
+        UISegmentedControl *segmentControl = [[UISegmentedControl alloc] initWithItems:colorArray];
+        [segmentControl addTarget:self
+                             action:@selector(changeColor:)
+                   forControlEvents:UIControlEventValueChanged];
+        [self.view addSubview:segmentControl];
     }
     return self;
 }
@@ -37,5 +47,20 @@
 {
     [super viewDidLoad];
     NSLog(@"BNRHypnosisViewController did load!");
+}
+
+- (void)changeColor:(id)sender
+{
+    UISegmentedControl *segmentedControl = (UISegmentedControl *) sender;
+    NSLog(@"The Segment controller was touched %d", segmentedControl.selectedSegmentIndex);
+    if(segmentedControl.selectedSegmentIndex == 0){
+        ((BNRHypnosisView *)self.view).circleColor = [UIColor redColor];
+    }
+    if(segmentedControl.selectedSegmentIndex == 1){
+        ((BNRHypnosisView *)self.view).circleColor = [UIColor greenColor];
+    }
+    if(segmentedControl.selectedSegmentIndex == 2){
+        ((BNRHypnosisView *)self.view).circleColor = [UIColor blueColor];
+    }
 }
 @end

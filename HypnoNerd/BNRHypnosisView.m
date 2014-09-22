@@ -8,9 +8,7 @@
 
 #import "BNRHypnosisView.h"
 // a class exgension
-@interface BNRHypnosisView ()
-@property (strong, nonatomic) UIColor *circleColor;
-@end
+
 
 @implementation BNRHypnosisView
 
